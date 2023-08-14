@@ -17,9 +17,7 @@ public class StageSelectButton : MonoBehaviour
     private readonly ResultModel _model = new();
 
     #endregion
-    #region property
 
-    #endregion
     #region method
 
     private void Reset()
@@ -34,12 +32,7 @@ public class StageSelectButton : MonoBehaviour
         StateMachine.Instance.CurrentSceneType
             .Subscribe(scene =>
             {
-                if (scene == SceneType.Builder)
-                    _stageSelectButton.gameObject.SetActive(true);
-                else
-                {
-                    _stageSelectButton.gameObject.SetActive(false);
-                }
+                _stageSelectButton.gameObject.SetActive(scene == SceneType.Builder);
             })
             .AddTo(this);
     }

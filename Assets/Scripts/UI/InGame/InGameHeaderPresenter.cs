@@ -14,10 +14,12 @@ public class InGameHeaderPresenter : MonoBehaviour
 {
     #region variable
 
-    private InGameHeaderModel _model;
+    private CostModel _costModel;
+    private ResultModel _resultModel;
     [SerializeField] private MissionView _missionView;
     [SerializeField] private CostView _costView;
     [SerializeField] private StartView _startView;
+    [SerializeField]private RetryButton _retryButton;
     [SerializeField] private PartBuilder partBuilder;
 
     #endregion
@@ -27,7 +29,7 @@ public class InGameHeaderPresenter : MonoBehaviour
     private void Start()
     {
         StageData stageData = ProgressManager.Instance.CurrentStage;
-        _model = new InGameHeaderModel(stageData.StageCost);
+        _costModel = new CostModel(stageData.StageCost);
 
         partBuilder.OnStart += () =>
         {
@@ -42,7 +44,7 @@ public class InGameHeaderPresenter : MonoBehaviour
         partBuilder.OnPartAdded += element =>
         {
             element.OnPartPutOut += RemoveCostBridge;
-            _model.AddCost(element.PartInfo.Cost);
+            _costModel.AddCost(element.PartInfo.Cost);
         };
 
         partBuilder.OnPartRemoved += element =>
@@ -50,29 +52,29 @@ public class InGameHeaderPresenter : MonoBehaviour
             element.OnPartPutOut -= RemoveCostBridge;
         };
 
-        _model.CostOverState.Subscribe(value =>
+        _costModel.CostOverState.Subscribe(value =>
                 {
                     _startView.SetCostOverButton(value);
                 },
                 ex => Debug.LogError("Error: " + ex.Message))
             .AddTo(this);
 
-        _model.ConsumedCost.Subscribe(
+        _costModel.ConsumedCost.Subscribe(
                 value =>
                 {
-                    _costView.UpdateCost(value, _model.TotalCost);
+                    _costView.UpdateCost(value, _costModel.TotalCost);
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
                 )
             .AddTo(this);
 
-        StateMachine.Instance.CurrentSceneType
-            .Where(x => x == SceneType.ShowTarget)
+        _retryButton.OnClickRetryAsObservable()
             .Subscribe(
                 _ =>
                 {
-                    _missionView.Hide();
-                    _costView.Hide();
+                    AudioManager.Instance.PlaySe(AudioClipName.ButtonClick);
+                    partBuilder.Retry();
+                    _resultModel.MoveToRetry();
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
                 )
@@ -80,33 +82,38 @@ public class InGameHeaderPresenter : MonoBehaviour
 
         StateMachine.Instance.CurrentSceneType
             .Subscribe(
-                x =>
+                sceneType =>
                 {
-                    if (x == SceneType.Builder)
+                    switch (sceneType)
                     {
-                        _costView.Show();
-                        _missionView.Show(_model.GetStageName());
-                        _costView.UpdateCost(_model.ConsumedCost.Value, _model.TotalCost);
-                    }
-                    else if (x == SceneType.ShowTarget)
-                    {
-                        _model.Reset();
-                    }
-                    else
-                    {
-                        _costView.Hide();
+                        case SceneType.Builder:
+                            _costView.Show();
+                            _missionView.Show(_costModel.GetStageName());
+                            _costView.UpdateCost(_costModel.ConsumedCost.Value, _costModel.TotalCost);
+                            break;
+                        case SceneType.ShowTarget:
+                            _costModel.Reset();
+                            _missionView.Hide();
+                            _costView.Hide();
+                            break;
+                        case SceneType.Title:
+                        case SceneType.StageSelect:
+                        case SceneType.InGame:
+                        default:
+                            _costView.Hide();
+                            break;
                     }
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
                 )
             .AddTo(this);
 
-        _model.Start();
+        _costModel.Start();
     }
 
     void RemoveCostBridge(PartElement element)
     {
-        _model.RemoveCost(element.PartInfo.Cost);
+        _costModel.RemoveCost(element.PartInfo.Cost);
     }
 
     #endregion

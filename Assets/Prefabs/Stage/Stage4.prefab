@@ -172,8 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9e21e48ad90ff48ac6655aeb497041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stage: {fileID: 4390332171659667388}
-  _missionShow: {fileID: 6887862276129631672}
+  _missionBanner: {fileID: 8479927715462119373}
+  _missionBannerText: {fileID: 5791137301440629450}
 --- !u!1 &5391557337881075451
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,10 +537,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissionCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 4052424213158959814, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7310287373366893476, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -631,14 +627,19 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7310287373366893476, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
   m_PrefabInstance: {fileID: 2957954115752872001}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6887862276129631672 stripped
+--- !u!114 &5791137301440629450 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8546241819063608825, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8742194042197557899, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
   m_PrefabInstance: {fileID: 2957954115752872001}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e5cce46f158bea4c82e0d50a78cf76c, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8479927715462119373 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6674900675232610188, guid: b15b34264eac574488ab3404c6d7ded2, type: 3}
+  m_PrefabInstance: {fileID: 2957954115752872001}
+  m_PrefabAsset: {fileID: 0}

@@ -14,23 +14,21 @@ using UnityEngine.UI;
 public class RetryButton : MonoBehaviour
 {
     [SerializeField] private Button _retryButton;
-    [SerializeField] private PartBuilder _partBuilder;
-    private readonly ResultModel _model = new();
 
     private void Reset()
     {
         _retryButton = GetComponent<Button>();
     }
-
+    public IObservable<Unit> OnClickRetryAsObservable() => _retryButton.OnClickAsObservable();
     private void Awake()
     {
-        _retryButton.onClick.AddListener(Retry);
-
         StateMachine.Instance.CurrentSceneType
             .Subscribe(scene =>
             {
                 if (scene == SceneType.InGame)
+                {
                     _retryButton.gameObject.SetActive(true);
+                }
                 else
                 {
                     if (_retryButton == null) return;
@@ -38,13 +36,5 @@ public class RetryButton : MonoBehaviour
                 }
             })
             .AddTo(this);
-    }
-
-    private void Retry()
-    {
-        AudioManager.Instance.PlaySe(AudioClipName.ButtonClick);
-
-        _partBuilder.Retry();
-        _model.MoveToRetry();
     }
 }
