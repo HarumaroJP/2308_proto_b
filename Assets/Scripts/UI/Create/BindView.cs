@@ -22,13 +22,13 @@ public class BindView : MonoBehaviour
 
     public void SetBindLeftTextState(bool enable)
     {
-        bindLeftText.text = enable ? "割当終了" : "割当する";
+        bindLeftText.text = enable ? "割当終了" : "割当開始";
         bindLeft.image.color = enable ? bindLeftColor : Color.white;
     }
 
     public void SetBindRightTextState(bool enable)
     {
-        bindRightText.text = enable ? "割当終了" : "割当する";
+        bindRightText.text = enable ? "割当終了" : "割当開始";
         bindRight.image.color = enable ? bindRightColor : Color.white;
     }
 }
