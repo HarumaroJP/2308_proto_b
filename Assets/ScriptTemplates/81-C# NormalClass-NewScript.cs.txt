@@ -1,0 +1,19 @@
+// 81-C# NormalClass-NewScript.cs
+//
+//CreateDay:
+//Creator  :
+//
+interface I#SCRIPTNAME#
+{
+
+}
+public class #SCRIPTNAME#:I#SCRIPTNAME#
+{
+	
+	//Can be instantiated from outside
+	public #SCRIPTNAME#()
+	{
+
+	}
+
+}

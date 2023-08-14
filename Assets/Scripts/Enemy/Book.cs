@@ -1,0 +1,25 @@
+// --------------------------------------------------------- 
+// Book.cs 
+// 
+// CreateDay: 
+// Creator  : 
+// --------------------------------------------------------- 
+using UnityEngine;
+using System.Collections;
+public class Book : BlackBord
+{
+
+    protected override int CollisionDamage(int damage)
+    {
+        return 0;
+    }
+
+
+    private void Awake()
+    {
+        _enemyData._enemyPosition = this.transform.position;
+        _enemyData._enemyRotation = this.transform.rotation;
+        _enemyData._enemyState = EnemyState.book;
+    }
+
+}

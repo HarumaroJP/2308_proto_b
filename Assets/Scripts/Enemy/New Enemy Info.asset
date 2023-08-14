@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8514a64e25185234bb852464a1368e7c, type: 3}
+  m_Name: New Enemy Info
+  m_EditorClassIdentifier: 
+  enemySettings:
+  - EnemyObject: {fileID: 3745677661684161506, guid: 75ac9b94fda082143b3e87b577d343e4, type: 3}
+    EnemyState: 0
+  - EnemyObject: {fileID: 1703692748139103343, guid: 629d4736c142a864ca8477458a14cc5b, type: 3}
+    EnemyState: 1
+  - EnemyObject: {fileID: 2508150193497762784, guid: 8b3501f50455547459892bbfc02e8db6, type: 3}
+    EnemyState: 2
+  - EnemyObject: {fileID: 776980377699988971, guid: 3d09b3d3f63549e43ab260e41930dfbd, type: 3}
+    EnemyState: 3
