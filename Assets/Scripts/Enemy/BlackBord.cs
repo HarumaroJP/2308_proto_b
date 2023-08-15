@@ -69,7 +69,6 @@ public class BlackBord : Enemy
             {
                 Instantiate(_effect, transform.position, transform.rotation);
                 if (destructionRateController != null) destructionRateController.DecrementEnemyParts();
-                Debug.Log("AAAAAAA");
                 Destroy(this.gameObject);
                 _canBreak = false;
             }

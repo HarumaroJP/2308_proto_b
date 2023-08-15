@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Part;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,7 +23,6 @@ namespace Builder.System
         [SerializeField] private Ease trashMoveEase;
         [SerializeField] private Ease trashScaleEase;
 
-        private List<PartElement> partElements;
         private GameObject playerObject;
         private GameObject replicatedObject;
 
@@ -38,21 +38,33 @@ namespace Builder.System
 
         public Vector2 SnapOffset => snapOffset;
 
-        public event Action<PartElement> OnPartAdded;
-        public event Action<PartElement> OnPartRemoved;
+        /// <summary>
+        /// 全体のパーツ
+        /// </summary>
+        private ReactiveCollection<PartElement> partElements;
+
+        public IReadOnlyReactiveCollection<PartElement> CurrentParts => partElements;
+
+        public IObservable<CollectionAddEvent<PartElement>> OnPartAdded;
+        public IObservable<CollectionRemoveEvent<PartElement>> OnPartRemoved;
+
         public event Action OnStart;
         public event Action OnRetry;
 
-        /// <summary>
-        /// 全体のパーツ数
-        /// </summary>
-        public IReadOnlyList<PartElement> CurrentParts => partElements;
 
         public bool IsPlaying { get; private set; }
 
-        private void Awake()
+        public void Initialize()
         {
-            partElements = new List<PartElement>();
+            partElements = new ReactiveCollection<PartElement>();
+            OnPartAdded = partElements.ObserveAdd();
+            OnPartRemoved = partElements.ObserveRemove();
+
+            CreatePlayerObject();
+        }
+
+        void CreatePlayerObject()
+        {
             playerObject = new GameObject("Player");
             playerObject.tag = "Player";
             playerObject.AddComponent<Player>();
@@ -105,8 +117,6 @@ namespace Builder.System
         {
             partElements.Add(partElement);
             partElement.transform.SetParent(playerObject.transform);
-
-            OnPartAdded?.Invoke(partElement);
             AudioManager.Instance.PlaySe(AudioClipName.PartsBuild);
         }
 
@@ -114,8 +124,6 @@ namespace Builder.System
         {
             partElements.Remove(partElement);
             partElement.transform.parent = stationaryBox;
-
-            OnPartRemoved?.Invoke(partElement);
         }
 
         public async void Trash(PartElement partElement)

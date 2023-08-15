@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Part;
+using UniRx;
 using UnityEngine;
 
 namespace Builder.System
@@ -15,8 +16,8 @@ namespace Builder.System
         {
             currentBinds = new List<BindElement>();
 
-            partBuilder.OnPartAdded += OnPartAdded;
-            partBuilder.OnPartRemoved += OnPartRemoved;
+            partBuilder.OnPartAdded.Subscribe(ev => OnPartAdded(ev.Value));
+            partBuilder.OnPartRemoved.Subscribe(ev => OnPartRemoved(ev.Value));
         }
 
         private void OnPartAdded(PartElement element)
