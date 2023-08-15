@@ -11,6 +11,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using System;
 using System.Collections.Generic;
+using UniRx;
 
 public class EnemyManager : Enemy
 {
@@ -22,6 +23,12 @@ public class EnemyManager : Enemy
 
     DestructionRateController destructionRateController = default;
 
+    private ResultActivator resultActivator;
+
+    private bool canShot = false;
+
+    private Player player;
+
     #region method
 
     private void Awake()
@@ -29,7 +36,19 @@ public class EnemyManager : Enemy
         _enemyData._enemyPosition = this.transform.position;
         _enemyData._enemyRotation = this.transform.rotation;
         _enemyData._enemyState = EnemyState.enemy;
+
+        StateMachine.Instance.CurrentSceneType
+    .Subscribe(scene =>
+    {
+        if (scene == SceneType.InGame)
+        {
+            GetPlayer();
+        }
+    });
+
     }
+
+    private void GetPlayer()=> player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
 
     private void Start()
@@ -42,6 +61,11 @@ public class EnemyManager : Enemy
         AttackLoopAsync(ct).Forget();
 
         destructionRateController = GameObject.FindAnyObjectByType<DestructionRateController>();
+
+
+        resultActivator = FindObjectOfType<ResultActivator>();
+        resultActivator.OnDefeat += OnDefeat;
+
     }
 
     public override void SendDamage(int damage)
@@ -77,18 +101,20 @@ public class EnemyManager : Enemy
             //インターバル
             await UniTask.Delay(TimeSpan.FromSeconds(_attackInfo.interval));
 
+            canShot = true;
+
             await AttackAsync(ct);
         }
     }
 
     private async UniTask AttackAsync(CancellationToken ct)
     {
-        if (GameObject.FindWithTag("Player") == null)
+        if (player is null)
         {
             return;
         }
 
-        Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
         IReadOnlyList<StationaryPart> stationaryParts = player.Parts;
 
         int targetPart = UnityEngine.Random.Range(0, stationaryParts.Count);
@@ -117,7 +143,7 @@ public class EnemyManager : Enemy
         //Vector3 bulletTransform = stationaryParts[targetPart].gameObject.transform.position;
         while (quantity > 0)
         {
-            if (!ct.IsCancellationRequested)
+            if (!ct.IsCancellationRequested && canShot)
             {
                 GameObject bullet = Instantiate(_attackInfo.bullet, this.transform.position, this.transform.rotation);
 
@@ -141,6 +167,8 @@ public class EnemyManager : Enemy
 
         return;
     }
+
+    private void OnDefeat() => canShot = false;
 
     #endregion
 }

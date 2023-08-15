@@ -67,7 +67,6 @@ public class DestructionRateController : MonoBehaviour
         {
             _playerCurrentCount = value;
             _playerCurrentRate = (float)_playerCurrentCount / _playerMaxCount;
-            Debug.Log(_playerCurrentRate);
         }
     }
 
@@ -99,7 +98,7 @@ public class DestructionRateController : MonoBehaviour
 
     //Block
     public float EnemyCurrentRate => _enemyBlockCurrentRate;
-    public float PlayerCurrentRate => Mathf.Floor(_playerCurrentRate);
+    public float PlayerCurrentRate => _playerCurrentRate;
     public IReactiveProperty<float> EnemyHpRate => _enemyHpRate;
 
     private IReactiveProperty<float> _enemyHpRate = new ReactiveProperty<float>();
@@ -200,7 +199,6 @@ public class DestructionRateController : MonoBehaviour
     public void DecrimentPlayerParts()
     {
         PlayerCurrentHP -= 1;
-        Debug.Log(PlayerCurrentHP);
 
         if (!_isShaking)
         {
