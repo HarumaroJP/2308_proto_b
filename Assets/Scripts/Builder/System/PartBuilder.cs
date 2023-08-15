@@ -48,17 +48,25 @@ namespace Builder.System
         public IObservable<CollectionAddEvent<PartElement>> OnPartAdded;
         public IObservable<CollectionRemoveEvent<PartElement>> OnPartRemoved;
 
-        public event Action OnStart;
-        public event Action OnRetry;
+        private Subject<Unit> onStart;
+        private Subject<Unit> onRetry;
 
+        public IObservable<Unit> OnStart;
+        public IObservable<Unit> OnRetry;
 
         public bool IsPlaying { get; private set; }
 
         public void Initialize()
         {
-            partElements = new ReactiveCollection<PartElement>();
+            partElements = new ReactiveCollection<PartElement>().AddTo(this);
             OnPartAdded = partElements.ObserveAdd();
             OnPartRemoved = partElements.ObserveRemove();
+
+            onStart = new Subject<Unit>().AddTo(this);
+            onRetry = new Subject<Unit>().AddTo(this);
+
+            OnStart = onStart;
+            OnRetry = onRetry;
 
             CreatePlayerObject();
         }
@@ -97,7 +105,7 @@ namespace Builder.System
             IsPlaying = true;
 
             gameObject.SetActive(false);
-            OnStart?.Invoke();
+            onStart.OnNext(Unit.Default);
         }
 
         public void Retry()
@@ -110,7 +118,7 @@ namespace Builder.System
             IsPlaying = false;
 
             gameObject.SetActive(true);
-            OnRetry?.Invoke();
+            onRetry.OnNext(Unit.Default);
         }
 
         public void AddElement(PartElement partElement)

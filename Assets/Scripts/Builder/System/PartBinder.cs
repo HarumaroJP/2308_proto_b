@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Part;
 using UniRx;
 using UnityEngine;
@@ -12,12 +13,24 @@ namespace Builder.System
         private bool isBinding;
         private int currentBindKey;
 
+        private Subject<Unit> forceDisable;
+
+        public IObservable<Unit> ForceDisable;
+
         private void Start()
         {
             currentBinds = new List<BindElement>();
+            forceDisable = new Subject<Unit>().AddTo(this);
+            ForceDisable = forceDisable;
 
-            partBuilder.OnPartAdded.Subscribe(ev => OnPartAdded(ev.Value));
-            partBuilder.OnPartRemoved.Subscribe(ev => OnPartRemoved(ev.Value));
+            partBuilder.OnPartAdded.Subscribe(ev => OnPartAdded(ev.Value)).AddTo(this);
+            partBuilder.OnPartRemoved.Subscribe(ev => OnPartRemoved(ev.Value)).AddTo(this);
+            partBuilder.OnStart.Subscribe(_ =>
+                {
+                    SetBinderState(false);
+                    forceDisable.OnNext(Unit.Default);
+                })
+                .AddTo(this);
         }
 
         private void OnPartAdded(PartElement element)
@@ -51,20 +64,25 @@ namespace Builder.System
             if (isBinding && currentBindKey != mouseButtonKey)
                 return false;
 
-            isBinding = !isBinding;
+            SetBinderState(!isBinding);
             currentBindKey = mouseButtonKey;
+
+            return isBinding;
+        }
+
+        private void SetBinderState(bool state)
+        {
+            isBinding = state;
 
             foreach (BindElement bindElement in currentBinds)
             {
-                bindElement.Enabled = isBinding;
+                bindElement.Enabled = state;
             }
 
             foreach (PartElement element in partBuilder.CurrentParts)
             {
-                element.LockState = isBinding;
+                element.LockState = state;
             }
-
-            return isBinding;
         }
 
         private void OnBindSelected(StationaryPart part, BindElement bindElement)
