@@ -28,5 +28,12 @@ public class BindPresenter : MonoBehaviour
                 bindView.SetBindRightTextState(canSwitch);
             }, ex => Debug.LogError("Error: " + ex.Message))
             .AddTo(this);
+
+        partBinder.ForceDisable.Subscribe(_ =>
+            {
+                bindView.SetBindLeftTextState(false);
+                bindView.SetBindRightTextState(false);
+            }, ex => Debug.LogError("Error: " + ex.Message))
+            .AddTo(this);
     }
 }

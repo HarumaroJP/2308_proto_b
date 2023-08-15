@@ -29,15 +29,15 @@ public class InGameHeaderPresenter : MonoBehaviour
         StageData stageData = ProgressManager.Instance.CurrentStage;
         _model = new CostModel(stageData.StageCost);
 
-        partBuilder.OnStart += () =>
+        partBuilder.OnStart.Subscribe(_ =>
         {
             _costView.Hide();
-        };
+        });
 
-        partBuilder.OnRetry += () =>
+        partBuilder.OnRetry.Subscribe(_ =>
         {
             _costView.Show();
-        };
+        });
 
         partBuilder.OnPartAdded.Subscribe(ev =>
                 {
@@ -65,10 +65,10 @@ public class InGameHeaderPresenter : MonoBehaviour
             .AddTo(this);
 
         _model.CostOverState.Subscribe(value =>
-        {
-            _startView.SetCostOverButton(value);
-        })
-          .AddTo(this);
+            {
+                _startView.SetCostOverButton(value);
+            })
+            .AddTo(this);
 
         _model.ConsumedCost.Subscribe(
                 value =>
