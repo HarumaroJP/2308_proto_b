@@ -30,7 +30,9 @@ public class EraserController : StationaryPart
             temp.transform.position = this.transform.position;
         }
 
-        _rate.DecrimentPlayerParts();
+
+        //この処理は抽象クラスStationaryPartのOnDestroyで実装されているので子クラスでも呼んでしまうと２パーツ分マイナスされます。
+        //_rate.DecrimentPlayerParts();
 
         Destroy(this.gameObject);
     }

@@ -61,7 +61,7 @@ public class TapeController : StationaryPart
             temp.transform.position = this.transform.position;
         }
 
-        _rate.DecrimentPlayerParts();
+       // _rate.DecrimentPlayerParts();
 
         Destroy(this.gameObject);
     }
