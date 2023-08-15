@@ -24,7 +24,6 @@ public class CameraManager : MonoBehaviour
     Vector3 myStartPosition;
 
     private bool _isStart = false;
-    //[SerializeField] private StartView _view;
     IReadOnlyList<StationaryPart> stationaryParts = default;
     private void Awake()
     {
@@ -34,12 +33,6 @@ public class CameraManager : MonoBehaviour
 
         myStartPosition = myPosition;
         backGroundStartPosition = backGroundPosition;
-
-        //_view.OnClickStartAsObservable()
-        //    .Subscribe(
-        //        _ => StartCoroutine(A())
-        //        )
-        //    .AddTo(this);
     }
 
 
@@ -121,9 +114,5 @@ public class CameraManager : MonoBehaviour
         myPosition = myStartPosition;
 
     }
-    //IEnumerator A()
-    //{
-    //    yield return new WaitForSeconds(0.1f);
-    //    CameraStart();
-    //}
+
 }

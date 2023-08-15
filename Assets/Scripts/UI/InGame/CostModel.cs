@@ -5,22 +5,24 @@
 // Creator  : fuwa
 // --------------------------------------------------------- 
 
-using System.Collections.Generic;
+using System;
 using UniRx;
 
 public class CostModel
 {
     #region variable
 
-    private readonly ReactiveProperty<int> _consumedCost;
-    private readonly ReactiveProperty<bool> _costOverState;
-    public int TotalCost;
+    public readonly int StageCost;
+    private readonly ReactiveProperty<int> consumedCost;
+    private readonly ReactiveProperty<bool> playableState;
 
     #endregion
 
     #region property
-    public IReadOnlyReactiveProperty<int> ConsumedCost => _consumedCost;
-    public IReadOnlyReactiveProperty<bool> CostOverState => _costOverState;
+
+    public IReadOnlyReactiveProperty<int> ConsumedCost => consumedCost;
+    public IReadOnlyReactiveProperty<bool> PlayableState => playableState;
+    public IObservable<bool> CostOverState => consumedCost.Select(IsCostOver);
 
     #endregion
 
@@ -28,42 +30,53 @@ public class CostModel
 
     public CostModel(int cost)
     {
-        TotalCost = cost;
-        _consumedCost = new ReactiveProperty<int>(0);
-        _costOverState = new ReactiveProperty<bool>(false);
+        StageCost = cost;
+        consumedCost = new ReactiveProperty<int>(0);
+        playableState = new ReactiveProperty<bool>(false);
     }
-
-    public string GetStageName() => ProgressManager.Instance.CurrentStage.SceneName;
 
     public void Start()
     {
-        _consumedCost.Value = 0;
+        consumedCost.Value = 0;
     }
 
     public void AddCost(int cost)
     {
-        _consumedCost.Value += cost;
+        consumedCost.Value += cost;
 
-        _costOverState.Value = _consumedCost.Value > TotalCost;
+        //コストが1以上 and ステージコスト内であればプレイ可能
+        playableState.Value = IsPlayable(consumedCost.Value);
     }
 
     public void RemoveCost(int cost)
     {
-        if (_consumedCost.Value <= 0)
+        if (consumedCost.Value <= 0)
         {
-            _consumedCost.Value = 0;
-            return;
+            consumedCost.Value = 0;
+        }
+        else
+        {
+            consumedCost.Value -= cost;
         }
 
-        _consumedCost.Value -= cost;
-        _costOverState.Value = _consumedCost.Value > TotalCost;
+        playableState.Value = IsPlayable(consumedCost.Value);
     }
+
+    bool IsPlayable(int cost)
+    {
+        return cost > 0 && !IsCostOver(cost);
+    }
+
+    bool IsCostOver(int cost)
+    {
+        return cost > StageCost;
+    }
+
 
     public void Reset()
     {
-        TotalCost = ProgressManager.Instance.CurrentStage.StageCost;
-        _consumedCost.Value = 0;
-        _costOverState.Value = false;
+        consumedCost.Value = 0;
+        playableState.Value = false;
     }
 
     #endregion

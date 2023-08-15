@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Part;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,7 +23,6 @@ namespace Builder.System
         [SerializeField] private Ease trashMoveEase;
         [SerializeField] private Ease trashScaleEase;
 
-        private List<PartElement> partElements;
         private GameObject playerObject;
         private GameObject replicatedObject;
 
@@ -38,21 +38,41 @@ namespace Builder.System
 
         public Vector2 SnapOffset => snapOffset;
 
-        public event Action<PartElement> OnPartAdded;
-        public event Action<PartElement> OnPartRemoved;
-        public event Action OnStart;
-        public event Action OnRetry;
-
         /// <summary>
-        /// 全体のパーツ数
+        /// 全体のパーツ
         /// </summary>
-        public IReadOnlyList<PartElement> CurrentParts => partElements;
+        private ReactiveCollection<PartElement> partElements;
+
+        public IReadOnlyReactiveCollection<PartElement> CurrentParts => partElements;
+
+        public IObservable<CollectionAddEvent<PartElement>> OnPartAdded;
+        public IObservable<CollectionRemoveEvent<PartElement>> OnPartRemoved;
+
+        private Subject<Unit> onStart;
+        private Subject<Unit> onRetry;
+
+        public IObservable<Unit> OnStart;
+        public IObservable<Unit> OnRetry;
 
         public bool IsPlaying { get; private set; }
 
-        private void Awake()
+        public void Initialize()
         {
-            partElements = new List<PartElement>();
+            partElements = new ReactiveCollection<PartElement>().AddTo(this);
+            OnPartAdded = partElements.ObserveAdd();
+            OnPartRemoved = partElements.ObserveRemove();
+
+            onStart = new Subject<Unit>().AddTo(this);
+            onRetry = new Subject<Unit>().AddTo(this);
+
+            OnStart = onStart;
+            OnRetry = onRetry;
+
+            CreatePlayerObject();
+        }
+
+        void CreatePlayerObject()
+        {
             playerObject = new GameObject("Player");
             playerObject.tag = "Player";
             playerObject.AddComponent<Player>();
@@ -85,7 +105,7 @@ namespace Builder.System
             IsPlaying = true;
 
             gameObject.SetActive(false);
-            OnStart?.Invoke();
+            onStart.OnNext(Unit.Default);
         }
 
         public void Retry()
@@ -98,15 +118,13 @@ namespace Builder.System
             IsPlaying = false;
 
             gameObject.SetActive(true);
-            OnRetry?.Invoke();
+            onRetry.OnNext(Unit.Default);
         }
 
         public void AddElement(PartElement partElement)
         {
             partElements.Add(partElement);
             partElement.transform.SetParent(playerObject.transform);
-
-            OnPartAdded?.Invoke(partElement);
             AudioManager.Instance.PlaySe(AudioClipName.PartsBuild);
         }
 
@@ -114,8 +132,6 @@ namespace Builder.System
         {
             partElements.Remove(partElement);
             partElement.transform.parent = stationaryBox;
-
-            OnPartRemoved?.Invoke(partElement);
         }
 
         public async void Trash(PartElement partElement)

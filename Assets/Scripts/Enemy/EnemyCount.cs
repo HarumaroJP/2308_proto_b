@@ -22,7 +22,6 @@ public class EnemyCount : MonoBehaviour
 
     private void Awake()
     {
-        // StartCoroutine(AA());
         StateMachine.Instance.CurrentSceneType
             .Subscribe(scene =>
             {
@@ -49,11 +48,6 @@ public class EnemyCount : MonoBehaviour
             destructionRateController.InitEnemyPartsCount(block);
             destructionRateController.InitEnemyCount(enemy);
         }
-    }
-    IEnumerator AA()
-    {
-        yield return new WaitForSeconds(1f);
-        CountStart();
     }
 
     #endregion
