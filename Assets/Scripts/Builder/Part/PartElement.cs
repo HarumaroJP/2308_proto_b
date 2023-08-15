@@ -135,6 +135,11 @@ namespace Part
                 rig.isKinematic = true;
             }
 
+            foreach (ConnectionDetector detector in detectors)
+            {
+                detector.Detect();
+            }
+
             partBuilder.AddElement(this);
         }
 
