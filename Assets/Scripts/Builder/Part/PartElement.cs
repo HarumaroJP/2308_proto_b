@@ -135,17 +135,7 @@ namespace Part
                 rig.isKinematic = true;
             }
 
-            bool found = detectors.Any(detector => detector.Detect());
-
-            //最初に配置する場合は設置を許可する
-            if (found || partBuilder.CurrentParts.Count == 0)
-            {
-                partBuilder.AddElement(this);
-            }
-            else
-            {
-                Trash();
-            }
+            partBuilder.AddElement(this);
         }
 
         /// <summary>
