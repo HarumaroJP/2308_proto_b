@@ -14,7 +14,7 @@ public class InGameHeaderPresenter : MonoBehaviour
 {
     #region variable
 
-    private InGameHeaderModel _model;
+    private CostModel _model;
     [SerializeField] private MissionView _missionView;
     [SerializeField] private CostView _costView;
     [SerializeField] private StartView _startView;
@@ -27,7 +27,7 @@ public class InGameHeaderPresenter : MonoBehaviour
     private void Start()
     {
         StageData stageData = ProgressManager.Instance.CurrentStage;
-        _model = new InGameHeaderModel(stageData.StageCost);
+        _model = new CostModel(stageData.StageCost);
 
         partBuilder.OnStart += () =>
         {
@@ -39,31 +39,44 @@ public class InGameHeaderPresenter : MonoBehaviour
             _costView.Show();
         };
 
-        partBuilder.OnPartAdded += element =>
-        {
-            element.OnPartPutOut += RemoveCostBridge;
-            _model.AddCost(element.PartInfo.Cost);
-        };
-
-        partBuilder.OnPartRemoved += element =>
-        {
-            element.OnPartPutOut -= RemoveCostBridge;
-        };
-
-        _model.CostOverState.Subscribe(value =>
+        partBuilder.OnPartAdded.Subscribe(ev =>
                 {
-                    _startView.SetCostOverButton(value);
+                    PartElement element = ev.Value;
+                    _model.AddCost(element.PartInfo.Cost);
+                },
+                ex => Debug.LogError("Error: " + ex.Message)
+            )
+            .AddTo(this);
+
+        partBuilder.OnPartRemoved.Subscribe(ev =>
+                {
+                    PartElement element = ev.Value;
+                    _model.RemoveCost(element.PartInfo.Cost);
+                },
+                ex => Debug.LogError("Error: " + ex.Message)
+            )
+            .AddTo(this);
+
+        _model.PlayableState.Subscribe(value =>
+                {
+                    _startView.SetEnableButton(value);
                 },
                 ex => Debug.LogError("Error: " + ex.Message))
             .AddTo(this);
 
+        _model.CostOverState.Subscribe(value =>
+        {
+            _startView.SetCostOverButton(value);
+        })
+          .AddTo(this);
+
         _model.ConsumedCost.Subscribe(
                 value =>
                 {
-                    _costView.UpdateCost(value, _model.TotalCost);
+                    _costView.UpdateCost(value, _model.StageCost);
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
-                )
+            )
             .AddTo(this);
 
         StateMachine.Instance.CurrentSceneType
@@ -75,7 +88,7 @@ public class InGameHeaderPresenter : MonoBehaviour
                     _costView.Hide();
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
-                )
+            )
             .AddTo(this);
 
         StateMachine.Instance.CurrentSceneType
@@ -85,8 +98,8 @@ public class InGameHeaderPresenter : MonoBehaviour
                     if (x == SceneType.Builder)
                     {
                         _costView.Show();
-                        _missionView.Show(_model.GetStageName());
-                        _costView.UpdateCost(_model.ConsumedCost.Value, _model.TotalCost);
+                        _missionView.Show(ProgressManager.Instance.CurrentStage.SceneName);
+                        _costView.UpdateCost(_model.ConsumedCost.Value, _model.StageCost);
                     }
                     else if (x == SceneType.ShowTarget)
                     {
@@ -98,7 +111,7 @@ public class InGameHeaderPresenter : MonoBehaviour
                     }
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
-                )
+            )
             .AddTo(this);
 
         _model.Start();

@@ -35,7 +35,6 @@ public class StartView : MonoBehaviour
     {
         startButtonText.text = enable ? "コスト\nオーバー" : "スタート";
         startButtonText.color = enable ? costOverColor : defaultColor;
-        _startButton.interactable = !enable;
     }
 
     #endregion

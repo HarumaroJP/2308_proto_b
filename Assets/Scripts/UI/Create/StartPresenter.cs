@@ -35,16 +35,16 @@ public class StartPresenter : MonoBehaviour
             )
             .AddTo(this);
 
-
-        _partBuilder.OnPartAdded += element =>
-        {
-            _view.SetEnableButton(_partBuilder.CurrentParts.Count > 0);
-        };
-
-        _partBuilder.OnPartRemoved += element =>
-        {
-            _view.SetEnableButton(_partBuilder.CurrentParts.Count > 0);
-        };
+        //
+        // _partBuilder.OnPartAdded += element =>
+        // {
+        //     _view.SetEnableButton(_partBuilder.CurrentParts.Count > 0);
+        // };
+        //
+        // _partBuilder.OnPartRemoved += element =>
+        // {
+        //     _view.SetEnableButton(_partBuilder.CurrentParts.Count > 0);
+        // };
     }
 
     #endregion
