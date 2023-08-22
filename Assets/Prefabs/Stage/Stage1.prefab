@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3113151800022610937}
   - component: {fileID: 5129737109064742897}
-  - component: {fileID: 8288019294522977412}
+  - component: {fileID: 2452605546317649154}
   m_Layer: 2
   m_Name: Stage1
   m_TagString: Ground
@@ -427,7 +427,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 27.306957, y: 1.4693394}
   m_EdgeRadius: 0
---- !u!114 &8288019294522977412
+--- !u!114 &2452605546317649154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
