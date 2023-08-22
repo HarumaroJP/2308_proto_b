@@ -5,9 +5,9 @@
 // Creator  : 
 // --------------------------------------------------------- 
 using System;
-using UnityEngine;
-using UniRx;
 using TMPro;
+using UniRx;
+using UnityEngine;
 public class EnemyDestructionRateView : MonoBehaviour
 {
     #region variable
@@ -24,6 +24,7 @@ public class EnemyDestructionRateView : MonoBehaviour
     private void Awake()
     {
         _destructionRateController.EnemyHpRate
+            .Where(hp => 0 <= hp && hp <= 100)
             .Subscribe(rate => _enemyRateText.text = $"破壊率：{100 - Mathf.Floor(rate * 100)}%")
             .AddTo(this);
 
@@ -31,7 +32,10 @@ public class EnemyDestructionRateView : MonoBehaviour
             .Subscribe(scene =>
             {
                 if (scene == SceneType.InGame)
+                {
+                    if (_enemyRateText == null) return;
                     _enemyRateText.gameObject.SetActive(true);
+                }
                 else
                 {
                     if (_enemyRateText == null) return;

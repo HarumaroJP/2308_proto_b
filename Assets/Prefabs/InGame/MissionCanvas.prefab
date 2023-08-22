@@ -12,14 +12,13 @@ GameObject:
   - component: {fileID: 4114834026196482530}
   - component: {fileID: 6769333685998079851}
   - component: {fileID: 7254372020310460964}
-  - component: {fileID: 8546241819063608825}
   m_Layer: 5
   m_Name: MissionCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7310287373366893476
 RectTransform:
   m_ObjectHideFlags: 0
@@ -103,20 +102,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8546241819063608825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4052424213158959814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e5cce46f158bea4c82e0d50a78cf76c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mission: {fileID: 4052424213158959814}
-  _missionText: {fileID: 8742194042197557899}
 --- !u!1 &4965123411590883205
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4387324342295182498
 RectTransform:
   m_ObjectHideFlags: 0

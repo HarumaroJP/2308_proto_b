@@ -40,6 +40,7 @@ public class ResultPresenter : MonoBehaviour
                 },
                 ex => Debug.LogError("Error: " + ex.Message)
                 ).AddTo(this);
+
         _view.OnClickToNextStageAsObservable()
             .Subscribe(
                 _ =>

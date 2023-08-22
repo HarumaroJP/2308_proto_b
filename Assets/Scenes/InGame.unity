@@ -746,7 +746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _retryButton: {fileID: 551260948}
-  _partBuilder: {fileID: 490427923}
 --- !u!1001 &551598706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -767,6 +766,10 @@ PrefabInstance:
       propertyPath: partBuilder
       value: 
       objectReference: {fileID: 490427923}
+    - target: {fileID: 2389441795769183748, guid: e0f322f2a73c5394dbeeec0c7593826d, type: 3}
+      propertyPath: _retryButton
+      value: 
+      objectReference: {fileID: 551260951}
     - target: {fileID: 3062907140446003200, guid: e0f322f2a73c5394dbeeec0c7593826d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
