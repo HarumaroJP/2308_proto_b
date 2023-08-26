@@ -1,11 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Part;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace Builder.System
 {
+    [Flags]
+    public enum Direction
+    {
+        Up = 1 << 0,
+        Down = 1 << 1,
+        Left = 1 << 2,
+        Right = 1 << 3
+    }
+
     [Serializable]
     class DetectDirection
     {
@@ -21,17 +32,23 @@ namespace Builder.System
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private float detectWidth;
         [SerializeField] private float unit = 0.5f;
-        [SerializeField] private Vector3 fixOffset;
-        [SerializeField] private DetectDirection direction;
+        [SerializeField] private Vector2 fixOffset;
+        [SerializeField] private ConnectableDirection connectableDir;
 
         public int ConnectionCount => connections.Count;
         public event Action OnDisconnected;
+
+        private readonly List<Direction> worldDirectionInfo = new List<Direction>()
+        {
+            Direction.Right, Direction.Down, Direction.Left, Direction.Up
+        };
 
         private readonly List<Connection> connections = new List<Connection>();
         private readonly Collider2D[] detectBuffer = new Collider2D[8];
 
         private const float avoidance = 0.1f;
         private float currentRotation;
+        private int currentRotationIndex;
         private bool isDragging;
 
         void Update()
@@ -43,6 +60,7 @@ namespace Builder.System
             {
                 currentRotation += 90f;
                 currentRotation = Mathf.Repeat(currentRotation, 360f);
+                currentRotationIndex = (int)Mathf.Repeat(currentRotationIndex + 1, 4);
             }
         }
 
@@ -65,25 +83,37 @@ namespace Builder.System
             isDragging = false;
         }
 
+        public bool IsConnectable(Direction direction)
+        {
+            return connectableDir.IsConnectable(direction);
+        }
+
         public bool Detect()
         {
             //上下左右にPartがあった場合にJointをアタッチする
-            int rightCount = direction.Right ? DetectRange(GetDetectRangeRight()) : 0;
-            Connect(rightCount);
+            int rightCount = connectableDir.IsTrue(Direction.Right) ? DetectRange(GetDetectRangeRight()) : 0;
+            Connect(rightCount, Direction.Right);
 
-            int leftCount = direction.Left ? DetectRange(GetDetectRangeLeft()) : 0;
-            Connect(leftCount);
+            int leftCount = connectableDir.IsTrue(Direction.Left) ? DetectRange(GetDetectRangeLeft()) : 0;
+            Connect(leftCount, Direction.Left);
 
-            int upCount = direction.Up ? DetectRange(GetDetectRangeUp()) : 0;
-            Connect(upCount);
+            int upCount = connectableDir.IsTrue(Direction.Up) ? DetectRange(GetDetectRangeUp()) : 0;
+            Connect(upCount, Direction.Up);
 
-            int downCount = direction.Down ? DetectRange(GetDetectRangeDown()) : 0;
-            Connect(downCount);
+            int downCount = connectableDir.IsTrue(Direction.Down) ? DetectRange(GetDetectRangeDown()) : 0;
+            Connect(downCount, Direction.Down);
 
             return rightCount + leftCount + upCount + downCount > 0;
         }
 
-        void Connect(int count)
+        Direction ConvertToWorldDir(Direction direction)
+        {
+            int index = worldDirectionInfo.IndexOf(direction);
+
+            return worldDirectionInfo[(int)Mathf.Repeat(currentRotationIndex + index, 4)];
+        }
+
+        void Connect(int count, Direction direction)
         {
             if (count == 0)
                 return;
@@ -92,18 +122,12 @@ namespace Builder.System
             {
                 GameObject part = detectBuffer[i].transform.gameObject;
 
-                if (part.transform.parent == null)
-                    return;
-
-                GameObject parent = part.transform.parent.gameObject;
-
-                PartElement element = default;
-                if (part.TryGetComponent(out element) || parent.TryGetComponent(out element))
+                if (part.TryGetComponent(out ConnectionDetector detector))
                 {
-                    if (part == gameObject || parent == gameObject)
-                    {
+                    Direction worldDir = ConvertToWorldDir(direction);
+
+                    if (part == gameObject || !detector.IsConnectable(worldDir))
                         continue;
-                    }
 
                     //相手側にJointをアタッチ
                     FixedJoint2D targetJoint = part.AddComponent<FixedJoint2D>();
@@ -146,11 +170,6 @@ namespace Builder.System
             return origin * 0.5f * unit + detectWidth * 0.5f + avoidance;
         }
 
-        Vector3 GetSpriteOffset()
-        {
-            return (Vector2)(partInfo.Size - Vector2Int.one) * 0.25f;
-        }
-
         Vector2 GetExtentsUp()
         {
             bool isFirstRot = currentRotation == 0f || currentRotation == 180f;
@@ -182,61 +201,49 @@ namespace Builder.System
         (Vector2 origin, Vector2 halfExtents) GetDetectRangeRight()
         {
             Vector2 halfExtents = GetExtentsRight();
+            Vector3 offset = GetOverlapRightOffset();
 
-            float radius = partInfo.Size.x * 0.5f;
+            float radius = partInfo.Size.x * 0.5f + unit;
             float x = Mathf.Cos(-currentRotation * Mathf.Deg2Rad) * radius;
             float y = Mathf.Sin(-currentRotation * Mathf.Deg2Rad) * radius;
 
-            return (transform.position + new Vector3(x, y), halfExtents);
+            return (transform.position + new Vector3(x, y) + offset, halfExtents);
         }
 
         (Vector2 origin, Vector2 halfExtents) GetDetectRangeUp()
         {
-            Vector2 origin = (Vector2)transform.position + GetOverlapOffset();
             Vector2 halfExtents = GetExtentsUp();
+            Vector3 offset = GetOverlapUpOffset();
 
-            Vector2 offset;
+            float radius = partInfo.Size.y * 0.5f + unit;
+            float x = Mathf.Cos((-currentRotation + 90f) * Mathf.Deg2Rad) * radius;
+            float y = Mathf.Sin((-currentRotation + 90f) * Mathf.Deg2Rad) * radius;
 
-            if (currentRotation == 0f || currentRotation == 180f)
-            {
-                offset = new Vector3(0f, ToOffset(partInfo.Size.y));
-            }
-            else
-            {
-                offset = new Vector3(ToOffset(partInfo.Size.x) - 0.5f, 0f);
-            }
-
-            return (origin + offset, halfExtents);
+            return (transform.position + new Vector3(x, y) + offset, halfExtents);
         }
 
         (Vector2 origin, Vector2 halfExtents) GetDetectRangeLeft()
         {
             Vector2 halfExtents = GetExtentsRight();
+            Vector3 offset = GetOverlapRightOffset();
 
-            float radius = -0.5f;
+            float radius = -(0.5f + unit);
             float x = Mathf.Cos(-currentRotation * Mathf.Deg2Rad) * radius;
             float y = Mathf.Sin(-currentRotation * Mathf.Deg2Rad) * radius;
 
-            return (transform.position + new Vector3(x, y), halfExtents);
+            return (transform.position + new Vector3(x, y) + offset, halfExtents);
         }
 
         (Vector2 origin, Vector2 halfExtents) GetDetectRangeDown()
         {
-            Vector2 origin = (Vector2)transform.position + GetOverlapOffset();
             Vector2 halfExtents = GetExtentsUp();
+            Vector3 offset = GetOverlapUpOffset();
 
-            Vector2 offset;
+            float radius = -(0.5f + unit);
+            float x = Mathf.Cos((-currentRotation + 90f) * Mathf.Deg2Rad) * radius;
+            float y = Mathf.Sin((-currentRotation + 90f) * Mathf.Deg2Rad) * radius;
 
-            if (currentRotation == 0f || currentRotation == 180f)
-            {
-                offset = new Vector3(0f, -ToOffset(partInfo.Size.y));
-            }
-            else
-            {
-                offset = new Vector3(-ToOffset(partInfo.Size.x) + 0.5f, 0f);
-            }
-
-            return (origin + offset, halfExtents);
+            return (transform.position + new Vector3(x, y) + offset, halfExtents);
         }
 
         private Collider2D[] overlapBuffer = new Collider2D[4];
@@ -246,7 +253,7 @@ namespace Builder.System
             Vector3 detectOffset = GetOverlapOffset();
             Vector2 size = GetOverlapSize();
 
-            int count = Physics2D.OverlapBoxNonAlloc(transform.position + detectOffset + fixOffset, size, 0f, overlapBuffer);
+            int count = Physics2D.OverlapBoxNonAlloc(transform.position + detectOffset, size, 0f, overlapBuffer);
 
             return count > 1;
         }
@@ -268,36 +275,57 @@ namespace Builder.System
 
         Vector2 GetOverlapOffset()
         {
-            float radius = partInfo.Size.x - 1f;
-            float x = Mathf.Cos(-currentRotation * Mathf.Deg2Rad) * radius;
-            float y = Mathf.Sin(-currentRotation * Mathf.Deg2Rad) * radius;
+            Vector2 upOffset = GetOverlapUpOffset();
+            Vector2 rightOffset = GetOverlapRightOffset();
 
-            return new Vector2(x, y) * 0.25f;
+            return upOffset + rightOffset;
+        }
+
+        Vector2 GetOverlapUpOffset()
+        {
+            float radius = partInfo.Size.x - 1f;
+            float rad = -currentRotation * Mathf.Deg2Rad;
+            float x = Mathf.Cos(rad) * radius;
+            float y = Mathf.Sin(rad) * radius;
+
+            return new Vector2(x, y) * fixOffset.y * 0.25f;
+        }
+
+        Vector2 GetOverlapRightOffset()
+        {
+            float radius = partInfo.Size.x - 1f;
+            float rad = (-currentRotation + 90f) * Mathf.Deg2Rad;
+            float x = Mathf.Cos(rad) * radius;
+            float y = Mathf.Sin(rad) * radius;
+
+            return new Vector2(x, y) * fixOffset.x * 0.25f;
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
 
-            if (direction.Up)
+            Vector2 fixOffset = this.fixOffset;
+
+            if (connectableDir.IsTrue(Direction.Up))
             {
                 var range = GetDetectRangeUp();
                 Gizmos.DrawWireCube(range.origin, range.halfExtents);
             }
 
-            if (direction.Left)
+            if (connectableDir.IsTrue(Direction.Left))
             {
                 var range = GetDetectRangeLeft();
                 Gizmos.DrawWireCube(range.origin, range.halfExtents);
             }
 
-            if (direction.Down)
+            if (connectableDir.IsTrue(Direction.Down))
             {
                 var range = GetDetectRangeDown();
                 Gizmos.DrawWireCube(range.origin, range.halfExtents);
             }
 
-            if (direction.Right)
+            if (connectableDir.IsTrue(Direction.Right))
             {
                 var range = GetDetectRangeRight();
                 Gizmos.DrawWireCube(range.origin, range.halfExtents);
@@ -313,7 +341,10 @@ namespace Builder.System
             Vector2 size = GetOverlapSize();
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position + detectOffset + fixOffset, size);
+            Gizmos.DrawWireCube(transform.position + detectOffset, size);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + detectOffset);
         }
     }
 }

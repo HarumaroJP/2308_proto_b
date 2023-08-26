@@ -32,12 +32,12 @@ public class InGameHeaderPresenter : MonoBehaviour
         partBuilder.OnStart.Subscribe(_ =>
         {
             _costView.Hide();
-        });
+        }).AddTo(this);
 
         partBuilder.OnRetry.Subscribe(_ =>
         {
             _costView.Show();
-        });
+        }).AddTo(this);
 
         partBuilder.OnPartAdded.Subscribe(ev =>
                 {

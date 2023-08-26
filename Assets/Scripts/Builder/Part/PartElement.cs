@@ -23,7 +23,6 @@ namespace Part
 
         public bool IsInitialState { get; private set; } = true;
         public PartInfo PartInfo => partInfo;
-        public event Action<PartElement> OnPartPutOut;
 
         private void Start()
         {
@@ -48,17 +47,11 @@ namespace Part
             if (isDragging || LockState)
                 return;
 
-
             previousSnapPos = Vector2.zero;
 
             if (IsInitialState)
             {
                 Instantiate(gameObject, transform.parent);
-            }
-
-            else
-            {
-                OnPartPutOut?.Invoke(this);
             }
 
             isDragging = true;
@@ -153,7 +146,6 @@ namespace Part
 
             if (detectors.Sum(detector => detector.ConnectionCount) == 0)
             {
-                OnPartPutOut?.Invoke(this);
                 partBuilder.RemoveElement(this);
                 Trash();
             }

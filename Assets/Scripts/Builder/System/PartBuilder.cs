@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Builder.Core;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Part;
@@ -58,6 +59,8 @@ namespace Builder.System
 
         public void Initialize()
         {
+            ServiceLocator.Instance.Register(this);
+
             partElements = new ReactiveCollection<PartElement>().AddTo(this);
             OnPartAdded = partElements.ObserveAdd();
             OnPartRemoved = partElements.ObserveRemove();

@@ -6,8 +6,10 @@
 // ---------------------------------------------------------
 
 using UnityEngine;
+
 namespace System
 {
+    [DefaultExecutionOrder(-1)]
     public class Singleton<T> : MonoBehaviour where T : Component
     {
         #region variable
@@ -15,6 +17,7 @@ namespace System
         public static T Instance { get; private set; }
 
         #endregion
+
         #region method
 
         private void Awake()
@@ -24,6 +27,7 @@ namespace System
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this as T;
             DontDestroyOnLoad(gameObject);
         }
