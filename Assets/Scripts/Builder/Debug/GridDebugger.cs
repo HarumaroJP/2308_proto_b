@@ -1,7 +1,7 @@
 using Builder.System;
 using UnityEngine;
 
-namespace Builder.Debug
+namespace Builder.Debugger
 {
     public class GridDebugger : MonoBehaviour
     {

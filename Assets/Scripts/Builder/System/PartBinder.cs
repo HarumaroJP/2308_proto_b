@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Builder.Core;
 using Part;
 using UniRx;
 using UnityEngine;
@@ -8,20 +9,24 @@ namespace Builder.System
 {
     public class PartBinder : MonoBehaviour
     {
-        [SerializeField] private PartBuilder partBuilder;
         private List<BindElement> currentBinds;
         private bool isBinding;
         private int currentBindKey;
 
         private Subject<Unit> forceDisable;
-
+        private PartBuilder partBuilder;
         public IObservable<Unit> ForceDisable;
 
-        private void Start()
+        private void Awake()
         {
             currentBinds = new List<BindElement>();
             forceDisable = new Subject<Unit>().AddTo(this);
             ForceDisable = forceDisable;
+        }
+
+        private void Start()
+        {
+            partBuilder = ServiceLocator.Instance.Resolve<PartBuilder>();
 
             partBuilder.OnPartAdded.Subscribe(ev => OnPartAdded(ev.Value)).AddTo(this);
             partBuilder.OnPartRemoved.Subscribe(ev => OnPartRemoved(ev.Value)).AddTo(this);
