@@ -24,6 +24,10 @@ namespace Part
         public bool IsInitialState { get; private set; } = true;
         public PartInfo PartInfo => partInfo;
 
+        public event Action OnTipShow;
+        public event Action OnTipHide;
+        public event Action<PartElement> OnDuplicated;
+
         private void Start()
         {
             cam = Camera.main;
@@ -51,7 +55,8 @@ namespace Part
 
             if (IsInitialState)
             {
-                Instantiate(gameObject, transform.parent);
+                GameObject obj = Instantiate(gameObject, transform.parent);
+                OnDuplicated?.Invoke(obj.GetComponent<PartElement>());
             }
 
             isDragging = true;
@@ -69,6 +74,22 @@ namespace Part
         }
 
         private Vector2 previousSnapPos;
+
+        private void OnMouseEnter()
+        {
+            if (IsInitialState)
+            {
+                OnTipShow?.Invoke();
+            }
+        }
+
+        private void OnMouseExit()
+        {
+            if (IsInitialState)
+            {
+                OnTipHide?.Invoke();
+            }
+        }
 
         public void OnDrag(PointerEventData eventData)
         {
