@@ -36,6 +36,7 @@ public class FadeAnim : MonoBehaviour ,IMaterialModifier
     private Material _material;
 
     #endregion
+    public float Progress => _progress;
     #region property
 
     public Graphic AnimGraphic
