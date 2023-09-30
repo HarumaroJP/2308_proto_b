@@ -77,6 +77,14 @@ public class ResultActivator : MonoBehaviour
                 ex => Debug.LogError("Error: " + ex.Message)
             )
             .AddTo(this);
+
+        m_destructionRate.OnDead.Skip(1)
+            .Subscribe(unit =>
+            {
+                CurrentState = ResultState.VICTORY;
+                Instantiate(m_resultPrefab);
+            })
+            .AddTo(this);
     }
 
     //	更新処理

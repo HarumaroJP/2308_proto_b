@@ -80,6 +80,7 @@ public class DestructionRateController : MonoBehaviour
             _enemyCurrentRate = (float)_enemyCurrentCount / _enemyBlockMaxCount;
             _enemyHpRate.Value = _enemyBlockCurrentRate;
 #if UNITY_EDITOR
+            Debug.Log(EnemyHp);
             Debug.Log("enemy rate: " + _enemyBlockCurrentRate);
 #endif
         }
@@ -91,7 +92,7 @@ public class DestructionRateController : MonoBehaviour
 
     //Enemy
     public IReactiveProperty<Unit> OnDead => _onDead;
-    private IReactiveProperty<Unit> _onDead = new ReactiveProperty<Unit>();
+    private ReactiveProperty<Unit> _onDead = new ReactiveProperty<Unit>();
 
     public IReactiveProperty<Unit> OnPlayerDead => _onPlayerDead;
     private IReactiveProperty<Unit> _onPlayerDead = new ReactiveProperty<Unit>();
@@ -188,9 +189,11 @@ public class DestructionRateController : MonoBehaviour
             _enemyRateText.text = (_enemyCurrentRate * 100).ToString();
         }
 
+        Debug.Log(EnemyHp);
+
         if (EnemyHp <= 0)
         {
-            _onDead.Value = Unit.Default;
+            _onDead.SetValueAndForceNotify(Unit.Default);
             AudioManager.Instance.PlaySe(AudioClipName.BreakParts);
         }
     }
