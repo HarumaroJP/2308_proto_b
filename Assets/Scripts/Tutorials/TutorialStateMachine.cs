@@ -1,5 +1,5 @@
 // TutorialStateMachine.cs
-//	ƒ`ƒ…[ƒgƒŠƒAƒ‹‚ÌƒXƒe[ƒg‚ğŠÇ—‚·‚éiƒXƒe[ƒgƒpƒ^[ƒ“j
+//	ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ã®ã‚¹ãƒ†ãƒ¼ãƒˆã‚’ç®¡ç†ã™ã‚‹ï¼ˆã‚¹ãƒ†ãƒ¼ãƒˆãƒ‘ã‚¿ãƒ¼ãƒ³ï¼‰
 //
 //CreateDay: 2023/09/09
 //Creator  : Ushimaru
@@ -12,19 +12,19 @@ public class TutorialStateMachine : MonoBehaviour
 {
 	#region variable 
 
-	//	Œ»İ‚ÌƒXƒe[ƒg
+	//	ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆ
 	private ITutorialState	m_currentState;
 
-	//	ŠeƒXƒe[ƒg
-	private BuildTutorialState m_targetState;   //	–Ú•W
+	//	å„ã‚¹ãƒ†ãƒ¼ãƒˆ
+	private BuildTutorialState m_targetState;   //	ç›®æ¨™
 
-	//	ƒ`ƒ…[ƒgƒŠƒAƒ‹ƒpƒlƒ‹
+	//	ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ãƒ‘ãƒãƒ«
 	[SerializeField]
 	private Transform	m_tutorialPanel;
 	[SerializeField]
 	private Image		m_background;
 
-	//	ƒ`ƒ…[ƒgƒŠƒAƒ‹ƒf[ƒ^
+	//	ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ãƒ‡ãƒ¼ã‚¿
 	[SerializeField]
 	private TutorialData m_buildTutorialData;
 
@@ -44,50 +44,50 @@ public class TutorialStateMachine : MonoBehaviour
 
 	private void Awake()
 	{
-		//	ŠeƒXƒe[ƒg‚Ìì¬
+		//	å„ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆ
 		m_targetState = new BuildTutorialState(this, m_buildTutorialData);
 	}
 
 	private void Start()
 	{
-		//	ƒXƒe[ƒg‚Ì‰Šú’l‚ğİ’è‚·‚é
+		//	ã‚¹ãƒ†ãƒ¼ãƒˆã®åˆæœŸå€¤ã‚’è¨­å®šã™ã‚‹
 		ChangeState(m_targetState);
 	}
 
 	private void Update()
 	{
-		//	ƒXƒe[ƒg‚ª–¢İ’è‚Ì‚Æ‚«‚Íˆ—‚µ‚È‚¢
+		//	ã‚¹ãƒ†ãƒ¼ãƒˆãŒæœªè¨­å®šã®ã¨ãã¯å‡¦ç†ã—ãªã„
 		if (m_currentState == null)
 			return;
 
-		//	ƒXƒe[ƒg‚ÌXVˆ—
+		//	ã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç†
 		m_currentState.UpdateState();
-		//	ƒeƒLƒXƒg‚ğæ“¾‚µ‚Ä‚­‚é
+		//	ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—ã—ã¦ãã‚‹
 		m_tutorialText.Value = m_currentState.TutorialText;
 	}
 
 
 	/*--------------------------------------------------------------------------------
-	|| ƒXƒe[ƒg‚Ì•ÏX
+	|| ã‚¹ãƒ†ãƒ¼ãƒˆã®å¤‰æ›´
 	--------------------------------------------------------------------------------*/
 	public void ChangeState(ITutorialState nextState)
 	{
 #if UNITY_EDITOR
 		Debug.Log("TutorialStateChanged : " + m_currentState + " => " + nextState);
 #endif
-		//	‘JˆÚæ‚ÌƒXƒe[ƒg‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚ÍƒGƒ‰[‚ğ•\¦‚·‚é
+		//	é·ç§»å…ˆã®ã‚¹ãƒ†ãƒ¼ãƒˆãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„ã¨ãã¯ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹
 		if (nextState == null)
-			Debug.LogError("‘JˆÚæ‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
+			Debug.LogError("é·ç§»å…ˆãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
 
 		if (m_currentState != null)
 		{
-			//	ƒXƒe[ƒg‚ÌI—¹ˆ—
+			//	ã‚¹ãƒ†ãƒ¼ãƒˆã®çµ‚äº†å‡¦ç†
 			m_currentState.OnExitState();
 		}
 
-		//	ƒXƒe[ƒg‚Ì•ÏX
+		//	ã‚¹ãƒ†ãƒ¼ãƒˆã®å¤‰æ›´
 		m_currentState = nextState;
-		//	ƒXƒe[ƒg‚ÌŠJnˆ—
+		//	ã‚¹ãƒ†ãƒ¼ãƒˆã®é–‹å§‹å‡¦ç†
 		m_currentState.OnEnterState();
 	}
 
