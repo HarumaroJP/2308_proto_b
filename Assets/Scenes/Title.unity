@@ -12271,9 +12271,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stageData:
+  - {fileID: 11400000, guid: 5e9bf70a014c6fa48919dfbedab39b66, type: 2}
   - {fileID: 11400000, guid: 8068ebb08b1bf1d45a32dc043bededef, type: 2}
-  - {fileID: 11400000, guid: c24ca799307f4924fa2440ab1429f9d6, type: 2}
+  - {fileID: 11400000, guid: b8d9af79b34fe344cabb5dd903956501, type: 2}
   - {fileID: 11400000, guid: 96fd714c80049ca459b59f2e97d4c88e, type: 2}
+  - {fileID: 11400000, guid: ea2d70cede1876a498a5020665d28e46, type: 2}
+  - {fileID: 11400000, guid: 43935d0024d2f734aa55f63aa2362dc1, type: 2}
 --- !u!4 &2103756241
 Transform:
   m_ObjectHideFlags: 0

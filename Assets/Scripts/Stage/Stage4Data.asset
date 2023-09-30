@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 010f9bb7624ca904687b856b0aefa6a6, type: 3}
   m_Name: Stage4Data
   m_EditorClassIdentifier: 
-  _sceneName: 1-4
+  _sceneName: "\u76EE\u6A19\uFF1A\u6575\u3092\u5012\u3059\uFF14"
   _stageCost: 100
-  _stagePrefab: {fileID: 4390332171659667388, guid: 46b5d951608b93f45a30016803f154ab, type: 3}
+  _stagePrefab: {fileID: 4390332171659667388, guid: d365f1cabd90481448ade441e40da072, type: 3}
   _stageRank:
   - Rank: S
-    Time: 30
-  - Rank: A
-    Time: 50
-  - Rank: B
     Time: 70
+  - Rank: A
+    Time: 100
+  - Rank: B
+    Time: 130
   - Rank: C
     Time: 1000

@@ -329,8 +329,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0018000305, y: 0.00045001507, z: 0}
-    m_Extent: {x: 0.9984, y: 1.00905, z: 0}
+    m_Center: {x: 0.0017499924, y: -0.005400032, z: 0}
+    m_Extent: {x: 1.00745, y: 1.0021, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -411,8 +411,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.00454998, y: 0.0051499903, z: 0}
-    m_Extent: {x: 1.00315, y: 1.00195, z: 0}
+    m_Center: {x: 0.0056500137, y: -0.005199969, z: 0}
+    m_Extent: {x: 1.00395, y: 1.0044999, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -493,8 +493,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0019500256, y: 0.00034999847, z: 0}
-    m_Extent: {x: 0.99835, y: 1.00335, z: 0}
+    m_Center: {x: -0.003000021, y: 0.00820002, z: 0}
+    m_Extent: {x: 1.0035, y: 0.9999, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -800,8 +800,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.006249994, y: -0.0029000044, z: 0}
-    m_Extent: {x: 1.00225, y: 1.0069, z: 0}
+    m_Center: {x: -0.00045001507, y: -0.00424999, z: 0}
+    m_Extent: {x: 0.99785, y: 1.00265, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -935,7 +935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.x
@@ -943,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_SizeDelta.x
@@ -983,11 +983,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1320
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -545
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1001,13 +1001,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7261494527139409228, guid: 0803241929dc119488511264cfaab74f, type: 3}
+      propertyPath: m_text
+      value: 1-6
+      objectReference: {fileID: 0}
     - target: {fileID: 7930916923591835945, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_Name
       value: StageButton (5)
       objectReference: {fileID: 0}
     - target: {fileID: 7930916923591835945, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1470,8 +1474,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.00425002, y: -0.00024998188, z: 0}
-    m_Extent: {x: 1.00175, y: 1.00265, z: 0}
+    m_Center: {x: 0.00034999847, y: -0.00015002489, z: 0}
+    m_Extent: {x: 0.99865, y: 1.00945, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1820,8 +1824,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0022000074, y: 0.0039000213, z: 0}
-    m_Extent: {x: 1.0008, y: 0.9999, z: 0}
+    m_Center: {x: 0.0009999871, y: -0.00060003996, z: 0}
+    m_Extent: {x: 1.0011001, y: 1.0088999, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1873,7 +1877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1881,15 +1885,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 480
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1921,11 +1925,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 800
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -545
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1949,7 +1953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7930916923591835945, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2128,7 +2132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2136,15 +2140,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 480
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2176,11 +2180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 280
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -545
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6842221040028818132, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2204,7 +2208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7930916923591835945, guid: 0803241929dc119488511264cfaab74f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2541,8 +2545,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.004150003, y: -0.0034500062, z: 0}
-    m_Extent: {x: 0.99944997, y: 1.00295, z: 0}
+    m_Center: {x: 0.0038999915, y: 0.00069999695, z: 0}
+    m_Extent: {x: 1.0023999, y: 1.0072, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -2744,8 +2748,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0012500286, y: 0.0028999746, z: 0}
-    m_Extent: {x: 1.00125, y: 1.0004, z: 0}
+    m_Center: {x: -0.0020499825, y: -0.0033999681, z: 0}
+    m_Extent: {x: 1.00705, y: 1.0028, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
