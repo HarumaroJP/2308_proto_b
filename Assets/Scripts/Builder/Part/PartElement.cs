@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Part
 {
-    public class PartElement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public class PartElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         [SerializeField] private Rigidbody2D[] rb;
         [SerializeField] private PartBuilder partBuilder;
@@ -75,7 +75,7 @@ namespace Part
 
         private Vector2 previousSnapPos;
 
-        private void OnMouseEnter()
+        public void OnPointerEnter(PointerEventData eventData)
         {
             if (IsInitialState)
             {
@@ -83,7 +83,7 @@ namespace Part
             }
         }
 
-        private void OnMouseExit()
+        public void OnPointerExit(PointerEventData eventData)
         {
             if (IsInitialState)
             {
