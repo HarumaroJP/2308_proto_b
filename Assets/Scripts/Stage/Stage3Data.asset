@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneName: "\u76EE\u6A19\uFF1A\u6575\u3092\u5012\u3059\uFF13"
   _stageCost: 100
-  _stagePrefab: {fileID: 4390332171659667388, guid: 6d3df71e1b0260547ac140a72e30a2da, type: 3}
+  _stagePrefab: {fileID: 4390332171659667388, guid: b41c446998c8fdd44ab19706fe38eb1e, type: 3}
   _stageRank:
   - Rank: S
-    Time: 30
-  - Rank: A
     Time: 50
+  - Rank: A
+    Time: 90
   - Rank: B
-    Time: 70
+    Time: 130
   - Rank: C
     Time: 1000
