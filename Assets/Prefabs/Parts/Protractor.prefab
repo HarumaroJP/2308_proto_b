@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2446061151167606036}
   - component: {fileID: 5160841956233356261}
   - component: {fileID: 1378921624190336910}
+  - component: {fileID: 7003269555907341250}
   - component: {fileID: 3838642754076493762}
   - component: {fileID: 8744947564113984517}
   - component: {fileID: 1275617372688137376}
-  - component: {fileID: 7003269555907341250}
   m_Layer: 0
   m_Name: Protractor
   m_TagString: Untagged
@@ -116,59 +116,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &3838642754076493762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108805117245306513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d13a32968ea66bd4e9942656e880e809, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 10
-  _actionButton: 0
-  _breakEffect: {fileID: 3110091176489545455, guid: 01047f08dbacc524e875423c7891092f, type: 3}
---- !u!114 &8744947564113984517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108805117245306513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa647c0d0b2d4734a9223addb48fc7c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb:
-  - {fileID: 1378921624190336910}
-  partBuilder: {fileID: 0}
-  detectors:
-  - {fileID: 1275617372688137376}
-  partInfo: {fileID: 11400000, guid: 759990cbb75d2e946b6aeb9ccdbef6e7, type: 2}
-  isDragging: 0
---- !u!114 &1275617372688137376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108805117245306513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 517a635d5592e3f45a316306426a12b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  partInfo: {fileID: 11400000, guid: 8646d9c3fb8e2cd458d5a6090534ac3c, type: 2}
-  rb: {fileID: 1378921624190336910}
-  detectWidth: 0.27
-  unit: -0.1
-  fixOffset: {x: 0.55, y: 0.98}
-  connectableDir:
-    direction: 0
 --- !u!60 &7003269555907341250
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -223,3 +170,56 @@ PolygonCollider2D:
       - {x: 2.2386522, y: 0.8552278}
       - {x: 1.743576, y: 1.3498718}
   m_UseDelaunayMesh: 0
+--- !u!114 &3838642754076493762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108805117245306513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13a32968ea66bd4e9942656e880e809, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 10
+  _actionButton: 0
+  _breakEffect: {fileID: 3110091176489545455, guid: 01047f08dbacc524e875423c7891092f, type: 3}
+--- !u!114 &8744947564113984517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108805117245306513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa647c0d0b2d4734a9223addb48fc7c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb:
+  - {fileID: 1378921624190336910}
+  partBuilder: {fileID: 0}
+  detectors:
+  - {fileID: 1275617372688137376}
+  partInfo: {fileID: 11400000, guid: 759990cbb75d2e946b6aeb9ccdbef6e7, type: 2}
+  isDragging: 0
+--- !u!114 &1275617372688137376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108805117245306513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517a635d5592e3f45a316306426a12b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partInfo: {fileID: 11400000, guid: 8646d9c3fb8e2cd458d5a6090534ac3c, type: 2}
+  rb: {fileID: 1378921624190336910}
+  detectWidth: 0.27
+  unit: -0.1
+  fixOffset: {x: 0.55, y: 0.98}
+  connectableDir:
+    direction: 0
